@@ -8,6 +8,9 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("https://orteil.dashnet.org/experiments/cookie/")
+bot_duration = int(input("How many minutes do you want the bot to run for?: "))
+
+custom_time = time.time() + 60*bot_duration 
 
 cookie = driver.find_element(By.ID, "cookie")
 
@@ -18,7 +21,7 @@ items = driver.find_elements(By.CSS_SELECTOR, "#store div")
 item_ids = [item.get_attribute("id") for item in items]
 
 timeout = time.time() + 5
-five_min = time.time() + 60*5 # 5minutes
+
 
 while True:
     cookie.click()
@@ -65,7 +68,7 @@ while True:
         timeout = time.time() + 5
 
     #After 5 minutes stop the bot and check the cookies per second count.
-    if time.time() > five_min:
+    if time.time() > custom_time:
         cookie_per_s = driver.find_element(By.ID, "cps").text
         print(cookie_per_s)
         break
